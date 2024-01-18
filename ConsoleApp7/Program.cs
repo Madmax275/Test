@@ -18,48 +18,33 @@ class Test{
     public int Pointers(ref int[] nums, ref int x)
     {
 
-        int totalSum = nums.Sum();
-        int targetSum = totalSum - x;
-
-        if (targetSum < 0)
-        {
-            return -1;
-        }
-
+        int targetSum = nums.Sum() - x;
+        int maxSubarrayLength = -1;
+        int currentSum = 0;
         int left = 0;
-        int right = nums.Length - 1;
-        int operations = 0;
 
-        while (left <= right)
+        for (int right = 0; right < nums.Length; right++)
         {
-            if (x == 0)
-            {
-                return operations;
-            }
+            currentSum += nums[right];
 
-            if (x >= nums[left])
+            while (currentSum > targetSum && left <= right)
             {
-                x -= nums[left];
+                currentSum -= nums[left];
                 left++;
             }
-            else if (x >= nums[right])
-            {
-                x -= nums[right];
-                right--;
-            }
-            else
-            {
-                break;
-            }
 
-            operations++;
+            if (currentSum == targetSum)
+            {
+                maxSubarrayLength = Math.Max(maxSubarrayLength, right - left + 1);
+            }
         }
 
-        return x == 0 ? operations : -1;
-
-
+        return maxSubarrayLength != -1 ? nums.Length - maxSubarrayLength : -1;
     }
+
+
 }
+
 
 
 
