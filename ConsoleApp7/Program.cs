@@ -2,8 +2,8 @@
 {
     static void Main(string[] args)
     {
-        int[] nums = { 3, 2, 20, 1, 1, 3 };
-        int x = 10;
+        int[] nums = { 1, 1, 4, 2, 3 };
+        int x = 5;
         Test test = new Test();
         int a = test.Pointers(ref nums, ref x);
         Console.WriteLine(a);
@@ -17,10 +17,8 @@ class Test{
    
     public int Pointers(ref int[] nums, ref int x)
     {
-        
-        int totalSum = nums.Sum();
-        int operation = 0;
 
+        int totalSum = nums.Sum();
         int targetSum = totalSum - x;
 
         if (targetSum < 0)
@@ -30,36 +28,36 @@ class Test{
 
         int left = 0;
         int right = nums.Length - 1;
+        int operations = 0;
 
         while (left <= right)
         {
             if (x == 0)
             {
-                return operation;
+                return operations;
             }
 
-            if (x < 0 || left > right)
+            if (x >= nums[left])
+            {
+                x -= nums[left];
+                left++;
+            }
+            else if (x >= nums[right])
+            {
+                x -= nums[right];
+                right--;
+            }
+            else
             {
                 break;
             }
 
-            if (x >= nums[left] && nums[left] <= nums[right])
-            {
-                x -= nums[left];
-                left++;
-                operation++;
-            }
-            else
-            {
-                x -= nums[right];
-                right--;
-                operation++;
-            }
+            operations++;
         }
 
-        return x == 0 ? operation : -1;
+        return x == 0 ? operations : -1;
 
-       
+
     }
 }
 
